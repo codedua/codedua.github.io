@@ -3,12 +3,12 @@
     "short_name": "",
     "icons": [
         {
-            "src": "/android-chrome-192x192.png",
-            "sizes": "192x192",
+            "src": "/icon_coconut_128px.png",
+            "sizes": "128x128",
             "type": "image/png"
         },
         {
-            "src": "/android-chrome-512x512.png",
+            "src": "/icon_coconut_512px.png",
             "sizes": "512x512",
             "type": "image/png"
         }
