@@ -6,7 +6,14 @@
     <description>Recent content in Posts on codedua</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate></lastBuildDate>
+    <lastBuildDate>Mon, 19 Aug 2024 14:34:34 +0700</lastBuildDate>
     <atom:link href="https://codedua.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Static Library and Shared Library</title>
+      <link>https://codedua.github.io/posts/static-library-shared-library/</link>
+      <pubDate>Mon, 19 Aug 2024 14:34:34 +0700</pubDate>
+      <guid>https://codedua.github.io/posts/static-library-shared-library/</guid>
+      <description>Static library Static library còn được gọi là archive /ˈɑːrkaɪv/ vì thực tế nó là một file chứa một hoặc nhiều object files.&#xA;Cũng vì thế mà static library có quy tắc đặt tên là lib*.a (a đại diện cho archive), ví dụ: libgnss.a libtime.a&#xA;Công cụ để tạo ra static library gọi là archiver, sử dụng thông qua command ar&#xA;Ví dụ ta có source code math_operations.cpp chứa các function tính toán cộng, trừ, nhân, chia đơn giản như sau:</description>
+    </item>
   </channel>
 </rss>

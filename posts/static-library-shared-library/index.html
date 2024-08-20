@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content=""
+  />
+  
+    
+      <title>Static Library and Shared Library | codedua</title>
+    
+  
+  <link rel="stylesheet" href="/css/reset.css"/>
+  <link rel="stylesheet" href="/css/font.css"/>
+  <link rel="stylesheet" href="/css/smigle.css"/>
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/icon_coconut_32px.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/icon_coconut_16px.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+</head>
+
+  <body>
+    <div id="root">
+
+      
+        <header>
+  <div id="brand">
+    <a class="icon-link" href="https://codedua.github.io/">
+      <img
+        class="icon"
+        src="/images/icon_coconut_512px.png"
+      />
+    </a>
+    <div class="text">
+      <a href="https://codedua.github.io/"><h1>codedua</h1></a>
+      <h3>my technote</h3>
+    </div>
+  </div>
+  <nav>
+    
+  </nav>
+  <hr />
+</header>
+
+      
+
+      <div id="content">
+        
+  <main>
+    <article>
+      <h1 class="title">Static Library and Shared Library</h1>
+      
+      <div class="post-meta">
+  <strong>
+    <span>Posted on</span>
+    <time>2024-08-19</time>
+    
+    
+  </strong>
+  <span> • 1206 words</span>
+  <span> • 6 minute read</span>
+  
+  
+</div>
+
+      <div class="content"><h3 id="static-library">Static library</h3>
+<p>Static library còn được gọi là <strong>archive</strong>  <em>/ˈɑːrkaɪv/</em> vì thực tế nó là một file chứa một hoặc nhiều object files.<br>
+Cũng vì thế mà static library có quy tắc đặt tên là <strong>lib*.a</strong> (a đại diện cho archive), ví dụ: libgnss.a libtime.a<br>
+Công cụ để tạo ra static library gọi là archiver, sử dụng thông qua command <strong>ar</strong><br>
+Ví dụ ta có source code math_operations.cpp chứa các function tính toán cộng, trừ, nhân, chia đơn giản như sau:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdexcept&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">add</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">sub</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a <span style="color:#f92672">-</span> b;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">mul</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a<span style="color:#f92672">*</span>b;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">float</span> <span style="color:#a6e22e">divide</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (a <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> std<span style="color:#f92672">::</span>invalid_argument(<span style="color:#e6db74">&#34;Division by zero error&#34;</span>);
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">float</span>(a<span style="color:#f92672">/</span>b);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Và một file source code advanced_operations.cpp chứa các funtion tính giai thừa (factorial) và tính số fibonacci như sau:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdexcept&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">uint64_t</span> <span style="color:#a6e22e">factorial</span>(<span style="color:#66d9ef">int</span> n) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> std<span style="color:#f92672">::</span>invalid_argument(<span style="color:#e6db74">&#34;Negative number for factorial&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint64_t</span> result <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>        result <span style="color:#f92672">*=</span> i;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> result;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">fibonacci</span>(<span style="color:#66d9ef">int</span> n) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> std<span style="color:#f92672">::</span>invalid_argument(<span style="color:#e6db74">&#34;Negative number for fibonacci&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, b <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, c <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;=</span> n; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>        c <span style="color:#f92672">=</span> a <span style="color:#f92672">+</span> b;
+</span></span><span style="display:flex;"><span>        a <span style="color:#f92672">=</span> b;
+</span></span><span style="display:flex;"><span>        b <span style="color:#f92672">=</span> c;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> c;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Ta muốn compile 2 source code trên một static library libmathop.a</p>
+<h4 id="biên-dịch-một-static-library">Biên dịch một static library</h4>
+<p>Biên dịch 2 source code trên thành 2 object file *.o<br>
+<code>g++ -c ./math_operations.cpp ./advanced_operations.cp</code></p>
+<p>compress to an archive<br>
+<code>ar rcs libmathop.a math_operations.o advanced_operations.o</code></p>
+<h4 id="sử-dụng-static-library">Sử dụng static library</h4>
+<p>Sử dụng thư viện tĩnh libmathop.a ta vừa biên dịch trong một source code khác là calculator.cpp.calculator.cpp sẽ gọi các functions của libmathop.a, vì vậy, trong calculator.cpp cần khai báo các function ta sẽ gọi, sau đó ta mới gọi tới các function đó:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* khai báo các functions tồn tại trong libmathop.a mà ta sẽ gọi */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">add</span>(<span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">sub</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">mul</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">float</span> <span style="color:#a6e22e">divide</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">uint64_t</span> <span style="color:#a6e22e">factorial</span>(<span style="color:#66d9ef">int</span> n);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">fibonacci</span>(<span style="color:#66d9ef">int</span> n);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* gọi tới các functions trong libmathop.a */</span>
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> add(<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">5</span>) <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> sub(<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">5</span>) <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> mul(<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">5</span>) <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> divide(<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">5</span>) <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> factorial(<span style="color:#ae81ff">10</span>) <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> fibonacci(<span style="color:#ae81ff">10</span>) <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Build chương trình calculator kết hợp từ source code calculator.cpp và thư viện tĩnh libmathop.a</p>
+<p><code>g++ calculator.cpp -L. -lmathop -o calculator</code> <br>
+-L chỉ định đường dẫn tới libmathop.a<br>
+-l chỉ định tên static library, do ta đặt tên theo quy chuẩn lib*.a nên khi chỉ định tên static lib có thể bỏ tiền tố lib và đuôi mở rộng .a </p>
+<h4 id="bình-luận">Bình luận</h4>
+<p>Trên thực tế, khi sử dụng một library, người ra sẽ không cần khai báo các function tồn tại trong library đó vào source code như cách calculator.cpp làm ở trên. Thay vào đó, chỉ cần include header mà library cung cấp vào source code. Điều đó đồng nghĩa với việc khi cung cấp một library, ta thường cung cấp một thư viện đã được biên dịch sẵn (libmathop.a) đi kèm với các file header tương ứng (math_operations.h, advanced_operations.h) chứa các public function mà library đó có. Điều này đảm bảo tính Encapsulation (đóng gói &amp; che giấu thông tin) và tính Abstraction (trừu tượng). Tuy nhiên, để đơn giản hóa, trong post này ta không sử dụng các file header.</p>
+<p>Tại sao calculator.cpp không chỉ đơn giản include trực tiếp file code math_operations.cpp, advanced_operation.cpp để gọi các function tính toán mà phải sử dụng một static library?</p>
+<p>→ để đảm bảo encapsulation…</p>
+<hr>
+<h3 id="shared-library">Shared library</h3>
+<p>Đối với chương trình calculator sử dụng static library ở trên, các object file của library libmathop.a được nhúng trực tiếp vào file thực thi (executable) của chương trình calculator, nói cách khác, các object file trong thư viện tĩnh trở thành một phần của file thực thi cuối  cùng. Điều này dẫn tới các nhược điểm sau:</p>
+<ul>
+<li>Làm tăng kích thước file thực thi cuối cùng</li>
+<li>Mỗi lần chạy chương trình calculator, các object file (math_operations.o và advanced_operations.o) đều được load vào virtual memory, → nếu chạy nhiều chương trình calculator cùng lúc thì sẽ phải load nhiều lần cùng một bản sao của các object file đó gây tốn memory</li>
+<li>Khi một source code của object file thay đổi (math_operations.cpp hoặc advanced_operations.cpp), ta cần compile lại object file tương ứng → do đó, calculator cũng cần build lại để link lại tới object file mới</li>
+</ul>
+<p>→ Shared library có thể khắc phục những nhược điểm trên.</p>
+<p>Ý tưởng chính của shared library là không nhúng trực tiếp các object file của library vào tệp thực thi cuối cùng (executable) mà chỉ tạo ra một liên kết tham chiếu giữa tệp thực thi và các object file cần thiết. Khi đó, chỉ cần một bản copy của object file cho tất các các chương trình nào cần link tới shared library đó. Khi chương trình calculator đầu tiên được khởi chạy, các object file của shared library được load vào memory. Khi chương trình calculator thứ hai (hoặc bất kì chương trình nào có link tới shared library đó) được khởi chạy thì không cần load lại các object file của library vào memory nữa mà dùng chung các object file đã có trong memory trước đó.</p>
+<h4 id="biên-dịch-một-shared-library">Biên dịch một shared library</h4>
+<p>Shared library nên đặt nên theo quy chuẩn <strong>lib*.so</strong>. (so = shared object).<br>
+Build shared library sử dụng câu lệnh<br>
+<code>g++ -fPIC -shared -o libmathop.so math_operations.cpp advanced_operations.cpp</code><br>
+-fPIC để generate position-independent code</p>
+<h4 id="sử-dụng-shared-library">Sử dụng shared library</h4>
+<p>Khi build chương trình calculator sử dụng shared library libmathop.so vẫn cần bước static linking nhưng thay vì nhúng toàn bộ object files vào file thực thi (executable) thì compiler chỉ nhúng tên của shared library vào executable<br>
+<code>g++ -o calculator calculator.cpp  libmathop.so -Wl,-rpath,.</code><br>
+-Wl, để chỉ định pass các option đứng ngay sau nó cho linker. đó là option -rpath,.<br>
+-rpath để chỉ định đường dẫn chứa shared library, trường hợp này đường dẫn là thư mục hiện tại (.)<br>
+Khi khởi chạy chương trình calculator, một cơ chế gọi là dynamic linking (được đảm nhiệm bởi dynamic linker) sẽ tìm và load shared library tương ứng với tên shared library đã được nhúng vào executable.</p>
+<h4 id="bình-luận-1">Bình luận</h4>
+<p>Sử dụng static library hay dynamic library?</p>
+<p>Một vài trường hợp dùng static lib sẽ phù hợp hơn, ví dụ, khi 1 app dùng static lib, toàn bộ code của static lib đó được nhúng vào app thì sẽ thuận tiện cho user khi sử dụng app, . Bởi vì nếu dùng shared lib thì quá trình cài đặt app sẽ cần cài đặt shared lib mà 1 số trường hợp user không có quyền cài đặt shared lib vào hệ thống. (thường để cài share lib vào các standard directories thì cần quyền sudo)
+hoặc trường hợp app run trên môi trường mà share lib là ko available</p>
+</div>
+    </article>
+  </main>
+
+      </div>
+
+      
+        <footer>
+  <hr />
+  
+    <p id="social">
+      Find me around the web:
+      <br />
+      
+        
+        <a href="https://www.linkedin.com/in/nvtoan/">Linkedin</a>
+      
+    </p>
+  
+  <p class="copyright">
+    Copyright © 2024
+    <a href="https://codedua.github.io/"><strong>codedua</strong></a>.
+    This work is licensed under the
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> license.
+  </p>
+  <p class="builtWith">
+    Built with
+    <a href="http://www.gohugo.io/">Hugo</a>,
+    using the theme
+    <a href="https://gitlab.com/ian-s-mcb/smigle-hugo-theme">smigle</a>,
+    which was influenced by the theme
+    <a href="https://github.com/sumnerevans/smol">smol</a>.
+  </p>
+</footer>
+
+      
+    </div>
+  </body>
+</html>
