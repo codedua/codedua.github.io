@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content=""
+  />
+  
+    
+      <title>SOME/IP Introduction | codedua</title>
+    
+  
+  <link rel="stylesheet" href="/css/reset.css"/>
+  <link rel="stylesheet" href="/css/font.css"/>
+  <link rel="stylesheet" href="/css/smigle.css"/>
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/icon_coconut_32px.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/icon_coconut_16px.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+</head>
+
+  <body>
+    <div id="root">
+
+      
+        <header>
+  <div id="brand">
+    <a class="icon-link" href="https://codedua.github.io/">
+      <img
+        class="icon"
+        src="/images/icon_coconut_512px.png"
+      />
+    </a>
+    <div class="text">
+      <a href="https://codedua.github.io/"><h1>codedua</h1></a>
+      <h3>my technote</h3>
+    </div>
+  </div>
+  <nav>
+    
+  </nav>
+  <hr />
+</header>
+
+      
+
+      <div id="content">
+        
+  <main>
+    <article>
+      <h1 class="title">SOME/IP Introduction</h1>
+      
+      <div class="post-meta">
+  <strong>
+    <span>Posted on</span>
+    <time>2023-07-24</time>
+    
+    
+  </strong>
+  <span> • 485 words</span>
+  <span> • 3 minute read</span>
+  
+  
+</div>
+
+      <div class="content"><blockquote>
+<p>SOME-IP by itself is not a library, and have no source code. It is merely a specification, developed and maintained by AUTOSAR. while its implementation is called vsomeip and released by COVESA.<br>
+CommonAPI C++ SOMEIP is a suite of toolchain and library that provides convenient way to perform SOME-IP using vsomeip. In other words, CommonAPI wraps vsomeip.</p>
+</blockquote>
+<h3 id="overall-architecture-of-someip">Overall Architecture of SOME/IP</h3>
+<p><img src="./images/someip-architecture.png" alt="SOME/IP overall architecture"></p>
+<p><strong>Routing manager</strong>:</p>
+<ul>
+<li>Routing manager is the central component that processes all the SOME/IP messages received. Routing manager decides where does the message send to.</li>
+<li>For each device excuting SOMEIP apps, only a single app can communicate to external device – stub app.Remaning apps (- proxy apps) communicate to external through stub app.</li>
+</ul>
+<p><img src="./images/someip-ext-communication.png" alt="External communication"></p>
+<p><strong>Service Discovery</strong>:</p>
+<ul>
+<li>Service discovery implements SOMEIP-SD protocol to communicate remote SOMEIP service.</li>
+<li>Service Discovery is used to:
+<ul>
+<li>Locate service instances,</li>
+<li>detect if service instances are running,</li>
+<li>handle Publish/Subscribe.</li>
+</ul>
+</li>
+<li>Provider services will announce their existence to Service Discovery by sending OFFER message.</li>
+<li>Consumer services find other service in the network by sending FIND message.</li>
+</ul>
+<p><strong>Endpoint</strong>:</p>
+<ul>
+<li>Each application need implement a Endpoint to send/receive message over socket.</li>
+<li>2 types of Endpoint:
+<ul>
+<li>Local endpoint for internal communication.</li>
+<li>TCP/UDP endpoint for external communication.</li>
+</ul>
+</li>
+</ul>
+<h3 id="communication-pattern">Communication pattern</h3>
+<ol>
+<li>Request/Response (Method):</li>
+</ol>
+<ul>
+<li>Request: message which calls a method on a server</li>
+<li>Response: message which returns the result of a method call.</li>
+</ul>
+<ol start="2">
+<li>Fire&amp;Forget (Method):</li>
+</ol>
+<ul>
+<li>Request: message which calls a method on a server</li>
+<li>No response is returned.</li>
+</ul>
+<ol start="3">
+<li>Event:</li>
+</ol>
+<ul>
+<li>Server notifies previously subscribed clients when something happens</li>
+<li>A notification message is sent to the clients each time the event occurs even if the event is the same.</li>
+<li>Does not have a status, initial value or lifetime</li>
+</ul>
+<ol start="4">
+<li>Field (Get/Set):</li>
+</ol>
+<ul>
+<li>Has a status with an inital value and a lifetime</li>
+<li>Get: method to read the current field value.</li>
+<li>Set: method to write the current field value.</li>
+<li>Response: message containing the current field value.</li>
+<li>Event: server notifies previosly subscribed clients only when field value changed.</li>
+</ul>
+<h3 id="definition-of-terms">Definition of terms</h3>
+<table>
+<thead>
+<tr>
+<th>Terms</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Service</td>
+<td>a logical combination of zero or more methods, zero or more events, and zero or more fields</td>
+</tr>
+<tr>
+<td>Service Interface</td>
+<td>the formal specification of the service including its methods, events, and fields</td>
+</tr>
+<tr>
+<td>Service Instance</td>
+<td>software implementation of the service interface, which can exist more than once in the vehicle and more than once on an ECU</td>
+</tr>
+<tr>
+<td>Server (Provider)</td>
+<td>The ECU offering a service instance shall be called server in the context of this service instance</td>
+</tr>
+<tr>
+<td>Client (Consumer)</td>
+<td>The ECU using the service instance of a server shall be called client in the context of this service instance</td>
+</tr>
+<tr>
+<td>Service ID</td>
+<td>A service shall be identified using the Service ID. Different services within the same vehicle shall have different Service IDs.</td>
+</tr>
+<tr>
+<td>Service-Instance-ID. (or instance ID)</td>
+<td>A service instance shall be identified using the Service-Instance-ID</td>
+</tr>
+<tr>
+<td>Client ID</td>
+<td>The ClientId identifies a client sending a call to a stub. It is used to identify the caller within a stub and is supposed to be added by the middleware</td>
+</tr>
+</tbody>
+</table>
+<h4 id="refer">Refer</h4>
+<p><a href="https://some-ip.com">https://some-ip.com</a></p>
+</div>
+    </article>
+  </main>
+
+      </div>
+
+      
+        <footer>
+  <hr />
+  
+    <p id="social">
+      Find me around the web:
+      <br />
+      
+        
+        <a href="https://www.linkedin.com/in/nvtoan/">Linkedin</a>
+      
+    </p>
+  
+  <p class="copyright">
+    Copyright © 2024
+    <a href="https://codedua.github.io/"><strong>codedua</strong></a>.
+    This work is licensed under the
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> license.
+  </p>
+  <p class="builtWith">
+    Built with
+    <a href="http://www.gohugo.io/">Hugo</a>,
+    using the theme
+    <a href="https://gitlab.com/ian-s-mcb/smigle-hugo-theme">smigle</a>,
+    which was influenced by the theme
+    <a href="https://github.com/sumnerevans/smol">smol</a>.
+  </p>
+</footer>
+
+      
+    </div>
+  </body>
+</html>

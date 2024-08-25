@@ -63,7 +63,7 @@
     
     
   </strong>
-  <span> • 1206 words</span>
+  <span> • 1208 words</span>
   <span> • 6 minute read</span>
   
   
@@ -132,7 +132,7 @@ Ví dụ ta có source code math_operations.cpp chứa các function tính toán
 <p>compress to an archive<br>
 <code>ar rcs libmathop.a math_operations.o advanced_operations.o</code></p>
 <h4 id="sử-dụng-static-library">Sử dụng static library</h4>
-<p>Sử dụng thư viện tĩnh libmathop.a ta vừa biên dịch trong một source code khác là calculator.cpp.calculator.cpp sẽ gọi các functions của libmathop.a, vì vậy, trong calculator.cpp cần khai báo các function ta sẽ gọi, sau đó ta mới gọi tới các function đó:</p>
+<p>Sử dụng thư viện tĩnh libmathop.a ta vừa biên dịch trong một source code khác là calculator.cpp.calculator.cpp sẽ gọi các functions của libmathop.a, vì vậy, trong calculator.cpp cần khai báo các function prototype ta sẽ gọi, sau đó ta mới gọi tới các function đó:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">/* khai báo các functions tồn tại trong libmathop.a mà ta sẽ gọi */</span>
@@ -161,7 +161,7 @@ Ví dụ ta có source code math_operations.cpp chứa các function tính toán
 -L chỉ định đường dẫn tới libmathop.a<br>
 -l chỉ định tên static library, do ta đặt tên theo quy chuẩn lib*.a nên khi chỉ định tên static lib có thể bỏ tiền tố lib và đuôi mở rộng .a </p>
 <h4 id="bình-luận">Bình luận</h4>
-<p>Trên thực tế, khi sử dụng một library, người ra sẽ không cần khai báo các function tồn tại trong library đó vào source code như cách calculator.cpp làm ở trên. Thay vào đó, chỉ cần include header mà library cung cấp vào source code. Điều đó đồng nghĩa với việc khi cung cấp một library, ta thường cung cấp một thư viện đã được biên dịch sẵn (libmathop.a) đi kèm với các file header tương ứng (math_operations.h, advanced_operations.h) chứa các public function mà library đó có. Điều này đảm bảo tính Encapsulation (đóng gói &amp; che giấu thông tin) và tính Abstraction (trừu tượng). Tuy nhiên, để đơn giản hóa, trong post này ta không sử dụng các file header.</p>
+<p>Trên thực tế, khi sử dụng một library, người ta sẽ không cần khai báo các function tồn tại trong library đó vào source code như cách calculator.cpp làm ở trên. Thay vào đó, chỉ cần include header mà library cung cấp vào source code. Điều đó đồng nghĩa với việc khi cung cấp một library, ta thường cung cấp một thư viện đã được biên dịch sẵn (libmathop.a) đi kèm với các file header tương ứng (math_operations.h, advanced_operations.h) chứa các public function prototype mà library đó có. Điều này đảm bảo tính Encapsulation (đóng gói &amp; che giấu thông tin) và tính Abstraction (trừu tượng). Tuy nhiên, để đơn giản hóa, trong post này ta không sử dụng các file header.</p>
 <p>Tại sao calculator.cpp không chỉ đơn giản include trực tiếp file code math_operations.cpp, advanced_operation.cpp để gọi các function tính toán mà phải sử dụng một static library?</p>
 <p>→ để đảm bảo encapsulation…</p>
 <hr>
