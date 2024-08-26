@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content=""
+  />
+  
+    
+      <title>Building SOME/IP application using CommonAPI C&#43;&#43; SOME/IP | codedua</title>
+    
+  
+  <link rel="stylesheet" href="/css/reset.css"/>
+  <link rel="stylesheet" href="/css/font.css"/>
+  <link rel="stylesheet" href="/css/smigle.css"/>
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/icon_coconut_32px.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/icon_coconut_16px.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+</head>
+
+  <body>
+    <div id="root">
+
+      
+        <header>
+  <div id="brand">
+    <a class="icon-link" href="https://codedua.github.io/">
+      <img
+        class="icon"
+        src="/images/icon_coconut_512px.png"
+      />
+    </a>
+    <div class="text">
+      <a href="https://codedua.github.io/"><h1>codedua</h1></a>
+      <h3>my technote</h3>
+    </div>
+  </div>
+  <nav>
+    
+  </nav>
+  <hr />
+</header>
+
+      
+
+      <div id="content">
+        
+  <main>
+    <article>
+      <h1 class="title">Building SOME/IP application using CommonAPI C&#43;&#43; SOME/IP</h1>
+      
+      <div class="post-meta">
+  <strong>
+    <span>Posted on</span>
+    <time>2023-07-26</time>
+    
+    
+  </strong>
+  <span> • 660 words</span>
+  <span> • 4 minute read</span>
+  
+  
+</div>
+
+      <div class="content"><hr>
+<blockquote>
+<p><strong>CommonAPI C++ SOMEIP</strong> is a suite of toolchain and library that provides convenient way to perform SOME-IP using vsomeip.<br>
+In other words, CommonAPI wraps vsomeip.</p>
+</blockquote>
+<h3 id="overall">Overall</h3>
+<p>CommonAPI C++ is a C++ framework for inter-process and network communication. It defines a high-level C++ API, which can be used for different IPC mechanisms. CommonAPI C++ SOMEIP, as the name implies, has 2 part:</p>
+<ul>
+<li>CommonAPI C++</li>
+<li>SOMEIP IPC stack (the implementation of the basic communication and the service discovery by vsomeip)</li>
+</ul>
+<p>Client and Server communicate via the Interface that the Server provides and the Client requires. Interface is defined in Franca IDL and include methods, attributes and broadcasts.</p>
+<h3 id="implementation-workflow">Implementation workflow</h3>
+<ol>
+<li>Interface definition</li>
+</ol>
+<p>This step is usually managed by the architect with an overview of the global system and the functional flow between services and clients. Architect describes service interface by a Interface definition language, specifically Franca IDL.</p>
+<ol start="2">
+<li>Implementation</li>
+</ol>
+<p>From Franca file, Code-generator-tools generate code for the services, called skeleton, and generate code for clients, call proxy.
+Then, developers can focus on implementing the business logic at both client and server sides</p>
+<ol start="3">
+<li>Network deployment</li>
+</ol>
+<p>Configure the connection of service and client. It must be ensure that addresses (serviceId, instanceId, methodId…) are consistent over the network</p>
+<h3 id="lets-start">Let&rsquo;s start!</h3>
+<p>We will implement two simple console applications. One will act as the server, providing certain functions, while the other will act as the client, calling the server&rsquo;s functions. These two applications will communicate via SOMEIP. Naturally, we will implement this using CommonAPI C++ SOMEIP.</p>
+<h4 id="prerequisites">Prerequisites</h4>
+<ul>
+<li>
+<p>gcc &gt;= 5.2<br>
+check version: gcc &ndash;version<br>
+install: <a href="https://linuxize.com/post/how-to-install-gcc-compiler-on-ubuntu-18-04/">https://linuxize.com/post/how-to-install-gcc-compiler-on-ubuntu-18-04/</a></p>
+</li>
+<li>
+<p>boost.asio &gt;= 1.55<br>
+in this tutorial, we use vsomeip 2.10.0 then <strong>boost.asio version must &lt; 1.66</strong> as well.<br>
+vsomeip does not support boost.aio &gt;= 1.66 before vsomeip 3.0.<br>
+check version: dpkg -s libboost-dev | grep &lsquo;Version&rsquo;<br>
+install boost.asio 1.56.0:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>sudo apt-get update
+</span></span><span style="display:flex;"><span>sudo apt-get install build-essential g++ autotools-dev libicu-dev libbz2-dev
+</span></span><span style="display:flex;"><span>wget https://sourceforge.net/projects/boost/files/boost/1.56.0/boost_1_56_0.tar.gz/download -O boost_1_56_0.tar.gz
+</span></span><span style="display:flex;"><span>tar -xvzf boost_1_56_0.tar.gz
+</span></span><span style="display:flex;"><span>cd boost_1_56_0
+</span></span><span style="display:flex;"><span>./bootstrap.sh
+</span></span><span style="display:flex;"><span>sudo ./b2 install
+</span></span></code></pre></div></li>
+<li>
+<p>CMake systembuild<br>
+check version: cmake &ndash;version<br>
+install: sudo apt-get -y install cmake</p>
+</li>
+<li>
+<p>git</p>
+</li>
+</ul>
+<p>Please make sure that you use code generators and runtime libraries with the same version.<br>
+this tutorial uses:</p>
+<ul>
+<li>capicxx-core-runtime 3.1.12,</li>
+<li>capicxx-someip-runtime 3.1.12,</li>
+<li>vsomeip 2.10.0,</li>
+<li>capicxx-core-tool 3.1.12,</li>
+<li>capicxx-someip-tool 3.1.12</li>
+</ul>
+<h4 id="build-libraries">Build libraries</h4>
+<ol>
+<li>Build CommonAPI core runtime</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>git clone https://github.com/COVESA/capicxx-core-runtime.git
+</span></span><span style="display:flex;"><span>cd capicxx-core-runtime
+</span></span><span style="display:flex;"><span>git checkout 99ebf3461f51e4899f06457d6aafdaa4adecd278
+</span></span><span style="display:flex;"><span>mkdir build
+</span></span><span style="display:flex;"><span>cd build
+</span></span><span style="display:flex;"><span>cmake ..
+</span></span><span style="display:flex;"><span>sudo make install
+</span></span></code></pre></div><p>after buiding, you should get log similar this:</p>
+<pre tabindex="0"><code>-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Project name: libcommonapi
+-- This is CMake for Common API C++ Version 3.1.12.
+-- CMAKE_INSTALL_PREFIX set to: /usr/local
+-- BUILD_SHARED_LIBS is set to value: ON
+-- MAX_LOG_LEVEL is set to value: DEBUG
+-- Setting build type to &#39;RelWithDebInfo&#39; as none was specified.
+-- USE_FILE is set to value: OFF
+-- USE_CONSOLE is set to value: OFF
+-- RPM packet version set to r0
+-- Build type: RelWithDebInfo
+-- Could NOT find PkgConfig (missing: PKG_CONFIG_EXECUTABLE) 
+-- Could NOT find Doxygen (missing: DOXYGEN_EXECUTABLE) 
+-- Doxygen is not installed. Documentation can not be built.
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/ubuntoan/someip/capicxx-core-runtime/build
+</code></pre><ol start="2">
+<li>Build vsomeip libary:</li>
+</ol>
+<p>( Previous step, I cloned commonAPI source code into <em>/home/ubuntoan/someip</em> and built it. Now i would like clone vsomeip source code into <em>/home/ubuntoan/someip</em> as well. You can clone sources to your different favorite directories but dont forget <code>make install</code> to install compiled libraries to standard directories )</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>git clone https://github.com/COVESA/vsomeip.git
+</span></span><span style="display:flex;"><span>cd vsomeip
+</span></span><span style="display:flex;"><span>git checkout 79fd5f7a34ed33392f71fa914a60b2e68b28de68 
+</span></span><span style="display:flex;"><span>mkdir build
+</span></span><span style="display:flex;"><span>cd build
+</span></span><span style="display:flex;"><span>cmake -DENABLE_SIGNAL_HANDLING<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> ..
+</span></span><span style="display:flex;"><span>make
+</span></span><span style="display:flex;"><span>sudo make install
+</span></span></code></pre></div><ol start="3">
+<li>Build CommonAPI SOMEIP runtime</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>git clone https://github.com/COVESA/capicxx-someip-runtime.git
+</span></span></code></pre></div></div>
+    </article>
+  </main>
+
+      </div>
+
+      
+        <footer>
+  <hr />
+  
+    <p id="social">
+      Find me around the web:
+      <br />
+      
+        
+        <a href="https://www.linkedin.com/in/nvtoan/">Linkedin</a>
+      
+    </p>
+  
+  <p class="copyright">
+    Copyright © 2024
+    <a href="https://codedua.github.io/"><strong>codedua</strong></a>.
+    This work is licensed under the
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> license.
+  </p>
+  <p class="builtWith">
+    Built with
+    <a href="http://www.gohugo.io/">Hugo</a>,
+    using the theme
+    <a href="https://gitlab.com/ian-s-mcb/smigle-hugo-theme">smigle</a>,
+    which was influenced by the theme
+    <a href="https://github.com/sumnerevans/smol">smol</a>.
+  </p>
+</footer>
+
+      
+    </div>
+  </body>
+</html>

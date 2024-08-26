@@ -6,14 +6,14 @@
     <description>Recent content on codedua</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 19 Aug 2024 14:34:34 +0700</lastBuildDate>
+    <lastBuildDate>Wed, 26 Jul 2023 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://codedua.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Static Library and Shared Library</title>
-      <link>https://codedua.github.io/posts/static-library-shared-library/</link>
-      <pubDate>Mon, 19 Aug 2024 14:34:34 +0700</pubDate>
-      <guid>https://codedua.github.io/posts/static-library-shared-library/</guid>
-      <description>Static library Static library còn được gọi là archive /ˈɑːrkaɪv/ vì thực tế nó là một file chứa một hoặc nhiều object files.&#xA;Cũng vì thế mà static library có quy tắc đặt tên là lib*.a (a đại diện cho archive), ví dụ: libgnss.a libtime.a&#xA;Công cụ để tạo ra static library gọi là archiver, sử dụng thông qua command ar&#xA;Ví dụ ta có source code math_operations.cpp chứa các function tính toán cộng, trừ, nhân, chia đơn giản như sau:</description>
+      <title>Building SOME/IP application using CommonAPI C&#43;&#43; SOME/IP</title>
+      <link>https://codedua.github.io/posts/commonapi-cpp-someip/</link>
+      <pubDate>Wed, 26 Jul 2023 00:00:00 +0000</pubDate>
+      <guid>https://codedua.github.io/posts/commonapi-cpp-someip/</guid>
+      <description>CommonAPI C++ SOMEIP is a suite of toolchain and library that provides convenient way to perform SOME-IP using vsomeip.&#xA;In other words, CommonAPI wraps vsomeip.&#xA;Overall CommonAPI C++ is a C++ framework for inter-process and network communication. It defines a high-level C++ API, which can be used for different IPC mechanisms. CommonAPI C++ SOMEIP, as the name implies, has 2 part:&#xA;CommonAPI C++ SOMEIP IPC stack (the implementation of the basic communication and the service discovery by vsomeip) Client and Server communicate via the Interface that the Server provides and the Client requires.</description>
     </item>
     <item>
       <title>SOME/IP Introduction</title>
@@ -21,6 +21,13 @@
       <pubDate>Mon, 24 Jul 2023 20:59:44 +0700</pubDate>
       <guid>https://codedua.github.io/posts/someip-introduction/</guid>
       <description>SOME-IP by itself is not a library, and have no source code. It is merely a specification, developed and maintained by AUTOSAR. while its implementation is called vsomeip and released by COVESA.&#xA;CommonAPI C++ SOMEIP is a suite of toolchain and library that provides convenient way to perform SOME-IP using vsomeip. In other words, CommonAPI wraps vsomeip.&#xA;Overall Architecture of SOME/IP Routing manager:&#xA;Routing manager is the central component that processes all the SOME/IP messages received.</description>
+    </item>
+    <item>
+      <title>Static Library and Shared Library</title>
+      <link>https://codedua.github.io/posts/static-library-shared-library/</link>
+      <pubDate>Tue, 28 Mar 2023 14:34:34 +0700</pubDate>
+      <guid>https://codedua.github.io/posts/static-library-shared-library/</guid>
+      <description>Static library Static library còn được gọi là archive /ˈɑːrkaɪv/ vì thực tế nó là một file chứa một hoặc nhiều object files.&#xA;Cũng vì thế mà static library có quy tắc đặt tên là lib*.a (a đại diện cho archive), ví dụ: libgnss.a libtime.a&#xA;Công cụ để tạo ra static library gọi là archiver, sử dụng thông qua command ar&#xA;Ví dụ ta có source code math_operations.cpp chứa các function tính toán cộng, trừ, nhân, chia đơn giản như sau:</description>
     </item>
     <item>
       <title>Portfolio</title>
