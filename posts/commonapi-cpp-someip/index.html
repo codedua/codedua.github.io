@@ -63,7 +63,7 @@
     
     
   </strong>
-  <span> • 660 words</span>
+  <span> • 662 words</span>
   <span> • 4 minute read</span>
   
   
@@ -111,7 +111,7 @@ vsomeip does not support boost.aio &gt;= 1.66 before vsomeip 3.0.<br>
 check version: dpkg -s libboost-dev | grep &lsquo;Version&rsquo;<br>
 install boost.asio 1.56.0:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>sudo apt-get update
-</span></span><span style="display:flex;"><span>sudo apt-get install build-essential g++ autotools-dev libicu-dev libbz2-dev
+</span></span><span style="display:flex;"><span>sudo apt-get install build-essential g++ python3-dev autotools-dev libicu-dev libbz2-dev
 </span></span><span style="display:flex;"><span>wget https://sourceforge.net/projects/boost/files/boost/1.56.0/boost_1_56_0.tar.gz/download -O boost_1_56_0.tar.gz
 </span></span><span style="display:flex;"><span>tar -xvzf boost_1_56_0.tar.gz
 </span></span><span style="display:flex;"><span>cd boost_1_56_0
@@ -146,6 +146,7 @@ this tutorial uses:</p>
 </span></span><span style="display:flex;"><span>mkdir build
 </span></span><span style="display:flex;"><span>cd build
 </span></span><span style="display:flex;"><span>cmake ..
+</span></span><span style="display:flex;"><span>make
 </span></span><span style="display:flex;"><span>sudo make install
 </span></span></code></pre></div><p>after buiding, you should get log similar this:</p>
 <pre tabindex="0"><code>-- The C compiler identification is GNU 11.4.0

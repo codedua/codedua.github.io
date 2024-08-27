@@ -16,6 +16,13 @@
       <description>CommonAPI C++ SOMEIP is a suite of toolchain and library that provides convenient way to perform SOME-IP using vsomeip.&#xA;In other words, CommonAPI wraps vsomeip.&#xA;Overall CommonAPI C++ is a C++ framework for inter-process and network communication. It defines a high-level C++ API, which can be used for different IPC mechanisms. CommonAPI C++ SOMEIP, as the name implies, has 2 part:&#xA;CommonAPI C++ SOMEIP IPC stack (the implementation of the basic communication and the service discovery by vsomeip) Client and Server communicate via the Interface that the Server provides and the Client requires.</description>
     </item>
     <item>
+      <title>SOMEIP packet dissection</title>
+      <link>https://codedua.github.io/posts/someip-packet-dissection/</link>
+      <pubDate>Wed, 26 Jul 2023 00:00:00 +0000</pubDate>
+      <guid>https://codedua.github.io/posts/someip-packet-dissection/</guid>
+      <description>Background Before consumer sending the first SOMEIP message to call provider’s method, consumer and provider must “handshake” to detect each other.&#xA;Handshake is steps conducted by SOMEIP Service Discovery sending broadcast message to find out existence services over the network.&#xA;That broadcast message is called SOMEIP SD message.&#xA;Both SOMEIP and SOMEIP SD packet are encapsulated as TCP/UDP payload.&#xA;SOMEIP Message SOME/IP messages shall be sent over UDP or TCP.</description>
+    </item>
+    <item>
       <title>SOME/IP Introduction</title>
       <link>https://codedua.github.io/posts/someip-introduction/</link>
       <pubDate>Mon, 24 Jul 2023 20:59:44 +0700</pubDate>
