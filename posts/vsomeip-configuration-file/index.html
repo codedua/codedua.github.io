@@ -9,7 +9,7 @@
   />
   
     
-      <title> | codedua</title>
+      <title>vsomeip configuration file - vsomeip.json | codedua</title>
     
   
   <link rel="stylesheet" href="/css/reset.css"/>
@@ -54,22 +54,45 @@
         
   <main>
     <article>
-      <h1 class="title"></h1>
+      <h1 class="title">vsomeip configuration file - vsomeip.json</h1>
       
       <div class="post-meta">
   <strong>
     <span>Posted on</span>
-    <time>0001-01-01</time>
+    <time>2023-05-01</time>
     
     
   </strong>
-  
-  
+  <span> • 172 words</span>
+  <span> • 1 minute read</span>
   
   
 </div>
 
-      <div class="content"></div>
+      <div class="content"><hr>
+<p>The vsomeip configuration file is in JSON format, typically named vsomeip.json, although you can name it anything with a .json extension. Each ECU with an app running SOMEIP requires at least one configuration file. Without configuration file, the SOMEIP apps on that ECU can only communicate others within ECU, not communicate other ECUs</p>
+<h3 id="vsomeipjson">vsomeip.json</h3>
+<p>there are main keys/tags in configuration file</p>
+<p><strong>unicast</strong>: host&rsquo;s IP address<br>
+<strong>application</strong>: list of applications should be load this configuration file. this tag include subtags:</p>
+<ul>
+<li><strong>name</strong>: application name. this name must be the same as declared name in cpp code or exported name in environment variable VSOMEIP_APPLICATION_NAME</li>
+<li><strong>id</strong>: application ID. it is unique within ECU.</li>
+</ul>
+<p><strong>services</strong>: list of providers. include subtags:</p>
+<ul>
+<li><strong>service</strong> service ID in hex format</li>
+<li><strong>instance</strong> instance ID in hex format</li>
+<li><strong>reliable</strong> if this tag is declared, TCP protocol will be used.
+<ul>
+<li><strong>port</strong></li>
+<li><strong>enable-magic-cookies</strong></li>
+</ul>
+</li>
+<li><strong>unreliable</strong> if this tag is declared, UDP protocol will be used. this tag has no subtags, value of this tag is port number.</li>
+<li><strong>event</strong>: list of available event/ broadcast that provider serves</li>
+</ul>
+</div>
     </article>
   </main>
 
