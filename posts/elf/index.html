@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content=""
+  />
+  
+    
+      <title>Phẫu thuật ELF file | codedua</title>
+    
+  
+  <link rel="stylesheet" href="/css/reset.css"/>
+  <link rel="stylesheet" href="/css/font.css"/>
+  <link rel="stylesheet" href="/css/smigle.css"/>
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/icon_coconut_32px.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/icon_coconut_16px.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+</head>
+
+  <body>
+    <div id="root">
+
+      
+        <header>
+  <div id="brand">
+    <a class="icon-link" href="http://localhost:1313/">
+      <img
+        class="icon"
+        src="/images/icon_coconut_512px.png"
+      />
+    </a>
+    <div class="text">
+      <a href="http://localhost:1313/"><h1>codedua</h1></a>
+      <h3>my technote</h3>
+    </div>
+  </div>
+  <nav>
+    
+  </nav>
+  <hr />
+</header>
+
+      
+
+      <div id="content">
+        
+  <main>
+    <article>
+      <h1 class="title">Phẫu thuật ELF file</h1>
+      
+      <div class="post-meta">
+  <strong>
+    <span>Posted on</span>
+    <time>2023-08-28</time>
+    
+    
+  </strong>
+  <span> • 285 words</span>
+  <span> • 2 minute read</span>
+  
+  
+</div>
+
+      <div class="content"><hr>
+<h4 id="object-file-are-relocatable">Object file are relocatable</h4>
+<p>Một file gọi là relocatable là file không phụ thuộc vào việc nó nằm ở địa chỉ cụ thể nào trong memory. nó có thể di chuyển và nằm ở bất kì địa chỉ nào trong memory mà không ảnh hưởng đến code. (thế file không relocatable thì ảnh hưởng gì đến code?)</p>
+<h3 id="elf">ELF</h3>
+<p>là định dạng binary mặc định trên Linux. Định dạng ELF có thể dùng cho file thực thi (executable file), object file, shared library, core dump. Post này sử dụng executable file làm ví dụ, các file khác là tương tự. ELF binary gồm 4 components:</p>
+<ul>
+<li>một executable header</li>
+<li>các program headers</li>
+<li>các sections</li>
+<li>các section headers
+<img src="/images/elf-components.png" alt="elf-components"></li>
+</ul>
+<h4 id="executable-header">Executable header</h4>
+<p>Chứa một cấu trúc gồm các byte để chỉ ra rằng đó là một file ELF và kiểu của ELF và cho biết những nội dung khác được nằm ở đâu trong file. Có thể xem định nghĩa các kiểu file ELF trong spec <em><a href="https://refspecs.linuxbase.org/elf/elf.pdf">https://refspecs.linuxbase.org/elf/elf.pdf</a></em> hoặc trong <code>/usr/include/elf.h</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span>	e_ident[EI_NIDENT];	<span style="color:#75715e">/* Magic number and other info */</span>
+</span></span><span style="display:flex;"><span>  Elf32_Half	e_type;			<span style="color:#75715e">/* Object file type */</span>
+</span></span><span style="display:flex;"><span>  Elf32_Half	e_machine;		<span style="color:#75715e">/* Architecture */</span>
+</span></span><span style="display:flex;"><span>  Elf32_Word	e_version;		<span style="color:#75715e">/* Object file version */</span>
+</span></span><span style="display:flex;"><span>  Elf32_Addr	e_entry;		<span style="color:#75715e">/* Entry point virtual address */</span>
+</span></span><span style="display:flex;"><span>  Elf32_Off     e_phoff;		<span style="color:#75715e">/* Program header table file offset */</span>
+</span></span><span style="display:flex;"><span>  Elf32_Off     e_shoff;		<span style="color:#75715e">/* Section header table file offset */</span>
+</span></span><span style="display:flex;"><span>  Elf32_Word	e_flags;		<span style="color:#75715e">/* Processor-specific flags */</span>
+</span></span><span style="display:flex;"><span>  Elf32_Half	e_ehsize;		<span style="color:#75715e">/* ELF header size in bytes */</span>
+</span></span><span style="display:flex;"><span>  Elf32_Half	e_phentsize;		<span style="color:#75715e">/* Program header table entry size */</span>
+</span></span><span style="display:flex;"><span>  Elf32_Half	e_phnum;		<span style="color:#75715e">/* Program header table entry count */</span>
+</span></span><span style="display:flex;"><span>  Elf32_Half	e_shentsize;		<span style="color:#75715e">/* Section header table entry size */</span>
+</span></span><span style="display:flex;"><span>  Elf32_Half	e_shnum;		<span style="color:#75715e">/* Section header table entry count */</span>
+</span></span><span style="display:flex;"><span>  Elf32_Half	e_shstrndx;		<span style="color:#75715e">/* Section header string table index */</span>
+</span></span><span style="display:flex;"><span>} Elf32_Ehdr;
+</span></span></code></pre></div></div>
+    </article>
+  </main>
+
+      </div>
+
+      
+        <footer>
+  <hr />
+
+  <style>
+    .small-block {
+      font-size: 12px;  
+    }
+  </style>
+  <div class="small-block">
+    <p class="copyright">
+      Copyright © 2024
+      <a href="http://localhost:1313/"><strong>codedua</strong></a>.
+      This work is licensed under the
+      <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> license.
+    </p>
+    <p class="builtWith">
+      Built with
+      <a href="http://www.gohugo.io/">Hugo</a>,
+      using the theme
+      <a href="https://gitlab.com/ian-s-mcb/smigle-hugo-theme">smigle</a>,
+      which was influenced by the theme
+      <a href="https://github.com/sumnerevans/smol">smol</a>.
+    </p>
+  </div>
+</footer>
+
+      
+    </div>
+  </body>
+</html>

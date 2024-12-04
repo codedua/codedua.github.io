@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>OS on codedua</title>
+    <link>https://codedua.github.io/categories/os/</link>
+    <description>Recent content in OS on codedua</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 28 Mar 2023 14:34:34 +0700</lastBuildDate>
+    <atom:link href="https://codedua.github.io/categories/os/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Static Library and Shared Library</title>
+      <link>https://codedua.github.io/posts/static-library-shared-library/</link>
+      <pubDate>Tue, 28 Mar 2023 14:34:34 +0700</pubDate>
+      <guid>https://codedua.github.io/posts/static-library-shared-library/</guid>
+      <description>Static library Static library còn được gọi là archive /ˈɑːrkaɪv/ vì thực tế nó là một file chứa một hoặc nhiều object files.&#xA;Cũng vì thế mà static library có quy tắc đặt tên là lib*.a (a đại diện cho archive), ví dụ: libgnss.a libtime.a&#xA;Công cụ để tạo ra static library gọi là archiver, sử dụng thông qua command ar&#xA;Ví dụ ta có source code math_operations.cpp chứa các function tính toán cộng, trừ, nhân, chia đơn giản như sau:</description>
+    </item>
+  </channel>
+</rss>

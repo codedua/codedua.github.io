@@ -44,6 +44,13 @@
       <description>Static library Static library còn được gọi là archive /ˈɑːrkaɪv/ vì thực tế nó là một file chứa một hoặc nhiều object files.&#xA;Cũng vì thế mà static library có quy tắc đặt tên là lib*.a (a đại diện cho archive), ví dụ: libgnss.a libtime.a&#xA;Công cụ để tạo ra static library gọi là archiver, sử dụng thông qua command ar&#xA;Ví dụ ta có source code math_operations.cpp chứa các function tính toán cộng, trừ, nhân, chia đơn giản như sau:</description>
     </item>
     <item>
+      <title></title>
+      <link>https://codedua.github.io/posts/opengles/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://codedua.github.io/posts/opengles/</guid>
+      <description>OpenGL ES hoàn toàn dựa trên shader, nghĩa là để vẽ vất kì hình nào bằng OpenGL ES thì đều phải load shader và bind chương trình đến shader. (Trong khi các phiên bản OpenGL cũ hơn 3.0 thì ta có thể vẽ các hình mà không cần shader bằng cách sử dụng các fixed-function như glBegin, glVertex, glColor, glEnd. Tuy nhiên từ openGL 3.0 thì đã loại bỏ fixed-function và yêu cầu phải sử dụng shader).</description>
+    </item>
+    <item>
       <title>Portfolio</title>
       <link>https://codedua.github.io/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content=""
+  />
+  
+    
+      <title>WebGL | codedua</title>
+    
+  
+  <link rel="stylesheet" href="/css/reset.css"/>
+  <link rel="stylesheet" href="/css/font.css"/>
+  <link rel="stylesheet" href="/css/smigle.css"/>
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/icon_coconut_32px.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/icon_coconut_16px.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+</head>
+
+  <body>
+    <div id="root">
+
+      
+        <header>
+  <div id="brand">
+    <a class="icon-link" href="http://localhost:1313/">
+      <img
+        class="icon"
+        src="/images/icon_coconut_512px.png"
+      />
+    </a>
+    <div class="text">
+      <a href="http://localhost:1313/"><h1>codedua</h1></a>
+      <h3>my technote</h3>
+    </div>
+  </div>
+  <nav>
+    
+  </nav>
+  <hr />
+</header>
+
+      
+
+      <div id="content">
+        
+  <main>
+    <article>
+      <h1 class="title">WebGL</h1>
+      
+      <div class="post-meta">
+  <strong>
+    <span>Posted on</span>
+    <time>2024-08-29</time>
+    
+    
+  </strong>
+  <span> • 1163 words</span>
+  <span> • 6 minute read</span>
+  
+  
+</div>
+
+      <div class="content"><hr>
+<p>Có 2 cách để truyền 1 giá trị vào shader:</p>
+<ul>
+<li>Uniform: để pass data giống nhau (uniform) cho các đỉnh vertex.</li>
+<li>Attribute: để pass data khác nhau cho từng đỉnh vertex</li>
+</ul>
+<h3 id="attribute">Attribute</h3>
+<p>Attribute variable là một biến GLSL ES để pass data từ outside vào shader và chỉ available trong vertex shader. Các bước để truyền data từ bên ngoài shader (từ file javascript) vào shader sử dụng attribute:</p>
+<ol>
+<li>Từ phía vertex shader, declare một attribute (và dùng nó)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>attribute vec4 a_Position;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    gl_Position <span style="color:#f92672">=</span> a_Position;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+<li>Từ phía js, get attribute variable vừa được khai báo trong vertext shader
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">a_Position</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">gl</span>.<span style="color:#a6e22e">getAttribLocation</span>(<span style="color:#a6e22e">program</span>, <span style="color:#e6db74">&#39;a_Position&#39;</span>);
+</span></span></code></pre></div><ul>
+<li>program: program object that holds vertex shader and fragment shader</li>
+<li>a_Position: tên của attribute trong vertex shader muốn get</li>
+</ul>
+</li>
+<li>set value cho attribute variable vừa get:<br>
+bước này sẽ pass value data vào attribute trong vertext shader
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#a6e22e">gl</span>.<span style="color:#a6e22e">vertexAttrib3f</span>(<span style="color:#a6e22e">a_Position</span>, <span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">0.0</span>);
+</span></span></code></pre></div><ul>
+<li>3 tham số cuối: giá trị muốn truyền cho attribute. Trường hợp này attribute trong vertex shader là vec4 thì giá trị thứ 4 sẽ mặc định là 1.0.<br>
+ngoài ra có thể sử dụng gl.vertexAttrib4f(a_Position, 0.0, 0.0, 0.0, 0.0) để tự tay set cả 4 giá trị cho attribute vec4 a_Position
+hoặc dùng gl.vertexAttrib2f(, , ,) hay vertexAttrib1f(, ,) để set giá trị cho attribute có kiểu vec2 hoặc vec1</li>
+</ul>
+</li>
+</ol>
+<h3 id="uniform">Uniform</h3>
+<p>Biến attribute chỉ sử dụng được trong vertex shader, để truyền data từ ngoài vào fragment shader thì cần sử dụng biến uniform. Uniform có thể truyền data từ Javascript program tới cả vertex shader và fragment shader. (Ngoài ra có thể dùng biến varying). Để truyền data vào shader thông qua uniform, các bước tương tự như dùng attribute:</p>
+<ol>
+<li>Từ phía shader, declare một uniform (và dùng nó)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>precision mediump <span style="color:#66d9ef">float</span>;
+</span></span><span style="display:flex;"><span>uniform vec4 u_FragColor;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>() { 
+</span></span><span style="display:flex;"><span>    gl_FragColor <span style="color:#f92672">=</span> u_FragColor;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+<li>Từ phía chương trình javascript, get uniform trong shader
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">u_FragColor</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">gl</span>.<span style="color:#a6e22e">getUniformLocation</span>(<span style="color:#a6e22e">program</span>, <span style="color:#e6db74">&#39;u_FragColor&#39;</span>); 
+</span></span></code></pre></div></li>
+<li>set value cho uniform vừa get được:
+bước này sẽ truyền data vào uniform trong shader
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#a6e22e">gl</span>.<span style="color:#a6e22e">uniform4f</span>(<span style="color:#a6e22e">u_FragColor</span>, <span style="color:#ae81ff">1.0</span>, <span style="color:#ae81ff">1.0</span>, <span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">1.0</span>); 
+</span></span></code></pre></div></li>
+</ol>
+<p>ngoài ra, có các method khác để set value cho uniform:<br>
+gl.uniform1f(uniform_variable, value)<br>
+gl.uniform2f(uniform_variable, value1, value2)<br>
+gl.uniform3f(uniform_variable, value1, value2, value3)</p>
+<hr>
+<h3 id="register-event-handler-in-js">Register event handler in js</h3>
+<p>sử dụng cú pháp function anonymous để đăng kí một handler cho một event nào đó:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">function</span>() { 
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// body
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>} 
+</span></span></code></pre></div><p>hoặc</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>( () =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Body...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>} )();
+</span></span></code></pre></div><p>một event handler (gọi tắt là một handler) là một async callback function sẽ được gọi khi một event nào đó diễn ra như click chuột, bấm phím&hellip;<br>
+<code>&lt;canvas&gt;</code> phân loại event thông qua các property. ví dụ <code>canvas.onmousedown</code> chỉ định event click chuột. ta đăng kí một handler cho event này như sau:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#a6e22e">canvas</span>.<span style="color:#a6e22e">onmousedown</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">ev</span>) {
+</span></span><span style="display:flex;"><span>                        <span style="color:#75715e">// define những gì sẽ xảy ra khi click chuột
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                     }                 
+</span></span></code></pre></div><ul>
+<li>ev: an event object that contains information about the mouse press.<br>
+<em><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/mousedown_event">https://developer.mozilla.org/en-US/docs/Web/API/Element/mousedown_event</a></em></li>
+</ul>
+<hr>
+<h3 id="buffer-object">Buffer object</h3>
+<p>Buffer object là một vùng nhớ lưu trữ được nhiều đỉnh (vertex) được cung cấp bởi hệ thống WebGL. Buffer object được dùng làm nơi lưu trữ dữ liệu các đỉnh vừa là cách để truyền dữ liệu các đỉnh (tọa độ các đỉnh) tới vertex shader một cách đồng thời (simutaneously).<br>
+❓Tại sao cần truyền dữ liệu tọa độ của các đỉnh tới vertex shader một các đồng thời?<br>
+Tại vì nếu chỉ truyền dữ liệu 1 đỉnh tới vertex shader thì nó chỉ vẽ đỉnh đó 1 lần. trong ví dụ bắt event click chuột để vẽ 1 điểm ở vị trí click chuột. dù ta vẽ được nhiều điểm trên canvas nhưng mỗi điểm đó được truyền vào vertex shader một cách riêng lẻ sau cú click chuột. <del>tuy nhiên, nếu truyền cả 3 đỉnh vào vertex shader cùng một lúc thì (chắc là) nó vẽ cả 3 đỉnh cùng lúc 1 cách thực sự (chắc là liên quan đến thế mạnh GPU có nhiều core và run parallel💩😁).</del><br>
+mỗi đỉnh được truyền vào vertex shader là vertex shader được executed 1 lần và vẽ ra 1 điểm trên canavs</p>
+<p>Steps to pass multiple data values to a vertex shader through a buffer object:</p>
+<p><img src="/images/webgl-steps-pass-multi-ver-to-shader.png" alt=""></p>
+<ol>
+<li>
+<p>Create a buffer object<br>
+<code> var vertexBuffer = gl.createBuffer();</code>
+Dưới đây là internal state ban đầu của webGL:<br>
+<img src="/images/webgl-internal-state.png" alt="">
+Sau khi tạo một buffer object:
+<img src="/images/webgl-internal-state1.png" alt=""></p>
+</li>
+<li>
+<p>Bind buffer object tới một target<br>
+target cho webGL biết datatype của buffer object.<br>
+<code> gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);</code></p>
+<ul>
+<li>1st param: target
+<ul>
+<li>gl.ARRAY_BUFFER: buffer chứa các vertex data (thuộc tính liên quan đến vertex) như tọa độ đỉnh, tọa độ texture, màu sắc đỉnh</li>
+<li>gl.ELEMENT_ARRAY_BUFFER: buffer chứa các index trỏ tới vertex data<br>
+&hellip;</li>
+</ul>
+</li>
+<li>2nd param: buffer object để bind
+<img src="/images/webgl-internal-state2.png" alt=""></li>
+</ul>
+</li>
+<li>
+<p>Ghi data vào buffer object<br>
+<code> gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);</code><br>
+<img src="/images/webgl-internal-state3.png" alt=""></p>
+</li>
+<li>
+<p>Truyền buffer object vào vertex shader thông qua một attribute variable
+<code>gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, 0, 0); </code>
+ví dụ attribute variable ở đây là <code>a_Position</code><br>
+Tương tự khi ta dùng attribute để truyền một data từ ngoài vào shader, ta dùng method vertexAttrib4f(). Tuy nhiên method này chỉ truyền được một data đơn lẻ (dữ liệu của 1 đỉnh) vào shader. Trong khi đó, ta đang muốn truyền 1 buffer chứa nhiều data (dữ liệu của nhiều đỉnh) vào shader nên ta dùng method vertexAttribPointer().<br>
+Như tên của method, thực tế ta chỉ truyền một tham chiếu (pointer) của buffer object vào vertex shader.</p>
+<ul>
+<li>1st param: attribute location (là attribute trong shader mà ta đã dùng js để get trước đó)</li>
+<li>2nd param: giá trị từ 1 đến 4, tương tự như vertexAttrib1f hoặc vertexAttrib2f, vertexAttrib3f, vertexAttrib4f. Trong trường hợp này, vertex data ta truyền vào chỉ là tọa độ (x,y) của điểm nên ta truyền vào 2.</li>
+<li>3rd param: datatype</li>
+<li>4th param:</li>
+<li>5th param: số bytes giữa các vertex data elements trong buffer (giữa các phần từ trong array). default = 0</li>
+<li>6th param: offset. chỉ ra data element đầu tiên được lưu bắt đầu từ byte thứ mấy trong buffer. default = 0</li>
+</ul>
+<p><img src="/images/webgl-internal-state4.png" alt=""></p>
+</li>
+<li>
+<p>Kích hoạt vertex attribute<br>
+<code>gl.enableVertexAttribArray(a_Position); </code>
+sau khi đã truyền data từ ngoài (từ 1 buffer object bên ngoài shader) vào shader, cần enable nó. 💩 loằng ngoằng vl
+<img src="/images/webgl-internal-state5.png" alt=""></p>
+</li>
+</ol>
+<p>bởi vì (ta truyền một buffer chứa 3 data của 3 đỉnh và) ta yêu cầu vẽ 3 point trên canvas dựa vào 3 data trong buffer đó <code>gl.drawArrays(gl.POINTS, 0, 3);</code> nên vertex shader được executed 3 lần
+<img src="/images/webgl-internal-state-full.png" alt=""></p>
+<hr>
+<h3 id="apis">APIs</h3>
+<p>webGL là một javascript library cung cấp khả năng render đồ họa 2D 3D trên trình duyệt web và có thể tương tác mà không cần sử dụng bất cứ plugin gì.<br>
+Tất cả API của lib webgl được exposed thông qua WebGLRenderingContext. Và ta có thể dùng API của nó để vẽ đồ họa lên <code>&lt;canvas&gt;</code> element của HTML. Vì vậy để sử dụng API của nó, trong code js ta cần getContext(&lsquo;webgl&rsquo;)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">canvas</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#34;myCanvas&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">gl</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">canvas</span>.<span style="color:#a6e22e">getContext</span>(<span style="color:#e6db74">&#34;webgl&#34;</span>);
+</span></span></code></pre></div><ul>
+<li>createProgram(): create và init một webGLProgram object</li>
+</ul>
+<h4 id="webglshader">webGLShader</h4>
+<p>Là một object được constructed từ vertex shader hoặc fragment shader</p>
+<h4 id="webglprogram">webGLProgram</h4>
+<p>là một object. kết hợp của 2 webGLShader. 2 webGLShader đã được compile được liên kết vào một webGLProgram</p>
+</div>
+    </article>
+  </main>
+
+      </div>
+
+      
+        <footer>
+  <hr />
+
+  <style>
+    .small-block {
+      font-size: 12px;  
+    }
+  </style>
+  <div class="small-block">
+    <p class="copyright">
+      Copyright © 2024
+      <a href="http://localhost:1313/"><strong>codedua</strong></a>.
+      This work is licensed under the
+      <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> license.
+    </p>
+    <p class="builtWith">
+      Built with
+      <a href="http://www.gohugo.io/">Hugo</a>,
+      using the theme
+      <a href="https://gitlab.com/ian-s-mcb/smigle-hugo-theme">smigle</a>,
+      which was influenced by the theme
+      <a href="https://github.com/sumnerevans/smol">smol</a>.
+    </p>
+  </div>
+</footer>
+
+      
+    </div>
+  </body>
+</html>

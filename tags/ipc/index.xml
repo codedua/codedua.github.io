@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>IPC on codedua</title>
+    <link>https://codedua.github.io/tags/ipc/</link>
+    <description>Recent content in IPC on codedua</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 26 Jul 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://codedua.github.io/tags/ipc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>SOMEIP packet dissection</title>
+      <link>https://codedua.github.io/posts/someip-packet-dissection/</link>
+      <pubDate>Wed, 26 Jul 2023 00:00:00 +0000</pubDate>
+      <guid>https://codedua.github.io/posts/someip-packet-dissection/</guid>
+      <description>Background Before consumer sending the first SOMEIP message to call provider’s method, consumer and provider must “handshake” to detect each other.&#xA;Handshake is steps conducted by SOMEIP Service Discovery sending broadcast message to find out existence services over the network.&#xA;That broadcast message is called SOMEIP SD message.&#xA;Both SOMEIP and SOMEIP SD packet are encapsulated as TCP/UDP payload.&#xA;SOMEIP Message SOME/IP messages shall be sent over UDP or TCP.</description>
+    </item>
+    <item>
+      <title>SOME/IP Introduction</title>
+      <link>https://codedua.github.io/posts/someip-introduction/</link>
+      <pubDate>Mon, 24 Jul 2023 20:59:44 +0700</pubDate>
+      <guid>https://codedua.github.io/posts/someip-introduction/</guid>
+      <description>SOME-IP by itself is not a library, and have no source code. It is merely a specification, developed and maintained by AUTOSAR. while its implementation is called vsomeip and released by COVESA.&#xA;CommonAPI C++ SOMEIP is a suite of toolchain and library that provides convenient way to perform SOME-IP using vsomeip. In other words, CommonAPI wraps vsomeip.&#xA;Overall Architecture of SOME/IP Routing manager:&#xA;Routing manager is the central component that processes all the SOME/IP messages received.</description>
+    </item>
+    <item>
+      <title>vsomeip configuration file - vsomeip.json</title>
+      <link>https://codedua.github.io/posts/vsomeip-configuration-file/</link>
+      <pubDate>Mon, 01 May 2023 00:00:00 +0000</pubDate>
+      <guid>https://codedua.github.io/posts/vsomeip-configuration-file/</guid>
+      <description>The vsomeip configuration file is in JSON format, typically named vsomeip.json, although you can name it anything with a .json extension. Each ECU with an app running SOMEIP requires at least one configuration file. Without configuration file, the SOMEIP apps on that ECU can only communicate others within ECU, not communicate other ECUs&#xA;vsomeip.json there are main keys/tags in configuration file&#xA;unicast: host&amp;rsquo;s IP address&#xA;application: list of applications should be load this configuration file.</description>
+    </item>
+  </channel>
+</rss>

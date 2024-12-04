@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content=""
+  />
+  
+    
+      <title>Concurrency | codedua</title>
+    
+  
+  <link rel="stylesheet" href="/css/reset.css"/>
+  <link rel="stylesheet" href="/css/font.css"/>
+  <link rel="stylesheet" href="/css/smigle.css"/>
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/icon_coconut_32px.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/icon_coconut_16px.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+</head>
+
+  <body>
+    <div id="root">
+
+      
+        <header>
+  <div id="brand">
+    <a class="icon-link" href="http://localhost:1313/">
+      <img
+        class="icon"
+        src="/images/icon_coconut_512px.png"
+      />
+    </a>
+    <div class="text">
+      <a href="http://localhost:1313/"><h1>codedua</h1></a>
+      <h3>my technote</h3>
+    </div>
+  </div>
+  <nav>
+    
+  </nav>
+  <hr />
+</header>
+
+      
+
+      <div id="content">
+        
+  <main>
+    <article>
+      <h1 class="title">Concurrency</h1>
+      
+      <div class="post-meta">
+  <strong>
+    <span>Posted on</span>
+    <time>2024-01-19</time>
+    
+    
+  </strong>
+  <span> • 1697 words</span>
+  <span> • 8 minute read</span>
+  
+  
+</div>
+
+      <div class="content"><hr>
+<blockquote>
+<p>Trong post này:<br>
+Thuật ngữ task được dùng tương đương với thuật ngữ process. một task được hiểu như một process và ngược lại.<br>
+Thuật ngữ single processor tương đương với thuật ngữ CPU chỉ có 1 core.<br>
+Thuật ngữ multi-processor hay multicore processor tương đương với thuật ngữ CPU có nhiều core.<br>
+Thuật ngữ thread sẽ được giữ nguyên để tránh nhầm lẫn</p>
+</blockquote>
+<p><img src="/images/concurrency-multicore-cpu.png" alt=""></p>
+<h3 id="concurrency-vs-parallelism">Concurrency VS Parallelism</h3>
+<p>Theo từ điển, Concurrency và Parallelism đều chỉ có nhiều sự việc diễn ra đồng thời. Tuy nhiên, trong computer science thì chúng không có nghĩa giống nhau 💩</p>
+<p><strong>Concurrency</strong>:<br>
+Concurrency chỉ việc làm nhiều thứ cùng 1 lúc nhưng không phải hoàn toàn cùng 1 thời điểm 💩 hêhê.</p>
+<blockquote>
+<p>&ldquo;1 lúc&rdquo; là một khoảng thời gian.<br>
+&ldquo;1 thời điểm&rdquo; là một điểm thời gian xác định.<br>
+(một khoảng thời gian chứa nhiều điểm thời gian.)<br>
+concurrency nghĩa là trong 1 khoảng thời gian có thể xử lý 1 số công việc nhưng các công việc đó không nhất thiết phải bắt đầu và kết thúc vào cùng 1 điểm thời gian giống nhau.</p>
+</blockquote>
+<p>Để hiểu rõ hơn, xét trên bối cảnh điện thoại smartphone Google Nexus One sử dụng CPU Single-core 1 GHz Qualcomm Scorpion (CPU chỉ có 1 core). Rõ ràng, 1 core thì chỉ có thể thực hiện 1 công việc (1 process) tại 1 điểm thời gian. Nghĩa là đang nghe nhạc mà muốn lướt web thì phải tắt trình phát nhạc đi rồi mới lướt web. Nhưng thực tế không phải vậy, dù chỉ có 1 core CPU nhưng do có thể thực hiện các tác vụ một cách concurrency nên ta có thể vừa nghe nhạc vừa nhắn tin cùng 1 lúc. Trong bối cảnh này, &ldquo;1 lúc&rdquo; là từ khi ta bắt đầu mở điện thoại cho tới khi ta tắt điện thoại. Trong khoảng thời gian này, dù chỉ có 1 core CPU nhưng ta có thể làm nhiều việc mà không cần phải đợi đến khi việc khác kết thúc. Nhưng các việc này không thể bắt đầu và kết thúc tại cùng 1 thời điểm, ví dụ ta bật music player trước và phát nhạc, sau đó quay trở lại home để bật messager và nhắn tin. Trong khi nhắn tin, nhạc vẫn được phát. Ta tưởng rằng 2 công việc được thực hiện song song (parallelism) nhưng thực ra chúng chỉ đang được thực hiện xen kẽ nhau 1 cách nhanh chóng (concurrency).<br>
+Về phía CPU, nó cũng không thể xử lý app messager và app music player tại cùng 1 thời điểm mà nó sẽ chuyển đổi qua lại giữa các app để xử lý.<br>
+Tương tự trong bối cảnh trong 1 process có nhiều thread. Ví dụ app Youtube có thread để load video từ server, thread render video phía người dùng và thread để phát âm thanh. Dù điện thoại Nexus One chỉ có single processor CPU nhưng vẫn có thể xem Youtube có âm thanh và hình ảnh khớp nhau mà không phải đợi âm thanh phát trước xong mới render hình ảnh. Do app Youtube thực hiện concurrency giữa các thread của nó nên ta có thể vừa xem thấy hình ảnh, vừa nghe được âm thanh và vừa load trước được video trong cùng 1 lúc. Trong bối cảnh này, &ldquo;1 lúc&rdquo; là từ khi khởi động app Youtube cho tới khi tắt app. Trong thời gian này, CPU xử lý qua lại giữa các thread tạo cho ta cảm giác đồng thời. Sự đồng thời này gọi là Concurrency - là một &ldquo;cảm giác&rdquo; (illusion).<br>
+Concurrency ở bối cảnh trước, khi cảm giác 2 app được xỷ lý đồng thời - là concurrency ở tầng OS.<br>
+Concurrency ở bối cảnh thứ hai, khi cảm giác các thread trong 1 process được xử lý đồng thời - là concurrency ở tầng application - phụ thuộc vào việc chương trình đó được lập trình thế nào.<br>
+Ngoài ra còn có concurrency tầng hardware.<br>
+Concurrency trong hardware và concurrency trong OS đều hỗ trợ concurrency tầng application.</p>
+<p><strong>Parallelism</strong>:<br>
+Nhiều task được chạy ở cùng một thời điểm trên một phần cứng máy tính có nhiều &lsquo;bộ xử lý&rsquo; - multicore processor (hay còn gọi là multi-processor, hay CPU có nhiều hơn 1 core).<br>
+Parallelism của một chương trình phụ thuộc vào môi trường phần cứng mà trên đó chương trình được thực thi. Trong môi trường phần cứng CPU chỉ có 1 core, chúng ta chỉ có thể đạt được concurrency chứ không thể đạt được parallelism.<br>
+Parallelism nằm ở tầng hardware, yêu cầu hardware phải có nhiều processor, tại cùng một thời điểm, mỗi processor thực hiện một công việc thì các công việc ấy được thực hiện song song thể hiện tính parallel. Một chương trình chạy parallel cần chạy trên hardware CPU có ít nhất 2 core.<br>
+Có nhiều level của parallelism hardware:</p>
+<ul>
+<li>instruction-level parallelism: là trong một core CPU có nhiều ALU (ALU là một circuit/ chip để tính toán các phép tính hoặc phép logic) đơn nên CPU có thể chia nhỏ một phép toán phức tạp thành các phép toán đơn giản và mỗi phép toán đơn giản được tính toán một cách đồng thười trên mỗi ALU.</li>
+<li>bit-level parallelism: (một công việc do compiler sắp xếp các instruction một cách thuận tiện nhất cho processor xử lý&hellip; ko quan tâm lắm 😁)</li>
+<li>multicore processor parallelism: là 1 CPU có nhiều core. nhiều công viêc được chia cho các core xử lý cách đồng thời.</li>
+</ul>
+<h3 id="cpu-vs-gpu">CPU VS GPU</h3>
+<p><strong>CPU</strong>:<br>
+CPU tiêu chuẩn được xây dựng theo mô hình kiến trúc MIMD. CPU có thể thực thi đa dạng instruction (có tập lệnh đa dạng và phức tạp).<br>
+MIMD - multiple instruction, multiple data - là 1 kiến trúc mà mỗi core có một controller riêng nên trong 1 thời điểm (hay trong cùng 1 chu kì clock), mỗi core có thể thực thi một instruction khác nhau. Và mỗi core có thể xử lý dữ liệu khác nhau trong cùng thời điểm. Vậy, tại một thời điểm có thể thực thi thao tác khác nhau trên nhiều dữ liệu khác nhau một cách song song.</p>
+<p><strong>GPU</strong>:<br>
+GPU là một loại processor đặc biệt được xây dựng theo mô hình kiến trúc SIMD và được tối ưu cho một số ít tập lệnh instruction.<br>
+SIMD - single instruction, multiple data - là 1 kiến trúc mà có các controller được chia sẻ chung giữa các core, vì vậy, tại 1 thời điểm (hay trong 1 chu kì clock) chỉ có 1 instruction được thực thi trên tất cả các core. Nhưng mỗi core có thể xử lý dữ liệu khác nhau. Vậy có thể thực hiện cùng một thao tác trên nhiều dữ liệu khác nhau một cách song song.
+Dù GPU có clock speed thấp hơn CPU nhưng có nhiều core hơn rất nhiều CPU (hàng nghìn core) nên GPU có thể thực thi song song các instruction (cùng 1 instruction nhưng thực thi nhiều lần 1 lúc) với một tốc độ cao. Ví dụ GPU NVIDIA GTX 1080 có 2560 core, clock speed = 1607 MHz -&gt; nó có thể thực thi 2560 instruction (cùng 1 instruction, mỗi core thực thi 1 lần) mỗi một chu kì clock. và mỗi giây nó có thể hoàn thành 1607 tỷ chu kỳ clock. Trong khi đó, CPU Intel Core i9 10940X chỉ có 14 core dù clock speed đạt 3.3GHz. Dù CPU có xung nhịp clock speed cao hơn và tập lệnh instruction đa dạng hơn nhưng GPU lại có số core nhiều hơn. Vì vậy CPU phù hợp cho các tác vụ phức tạp, còn GPU phù hợp cho các tác vụ tính toán lặp đi lặp lại và có thể chia nhỏ thành các tác vụ chạy song song độc lập như image processing, video processing, machine learning, mô phỏng tài chính và các loại trong computer science khác&hellip;<br>
+Ví dụ trong render hình ảnh, các pixel của hình ảnh có thể xử lý độc lập nhau và thao tác để render từng pixel là tương tự nhau, vì vậy có thể xử lý song song (parallel) các pixel với nhau. Hay trong phép cộng và nhân ma trận, từng phép tính trên mỗi cell ma trận là độc lập và có công thức xử lý cộng hoặc nhân giống nhau, vì vậy có thể xử lý song song (parallel) các cell &ndash;&gt; sử dụng GPU là phù hợp nhất</p>
+<p><img src="/images/concurrency-multicore-cpu-gpu.png" alt=""></p>
+<hr>
+<h2 id="concurrency">CONCURRENCY</h2>
+<h3 id="preemptive-multitasking">Preemptive multitasking</h3>
+<blockquote>
+<p><em>Trên góc nhìn của máy tính, một task là một process nên multitasking đồng nghĩa với multiprocessing và đều chỉ việc có nhiều task (hay process) được thực thi vào cùng một thời điểm</em></p>
+</blockquote>
+<p>Để tạo ra &lsquo;cảm giác&rsquo; nhiều task đang được thực thi đồng thời trên single processor (CPU 1 core), ta thực hiện bằng phương pháp preemptive multitasking.<br>
+Ý tưởng chính của phương pháp này là quy định 1 khoảng thời gian thực thi cố định cho mọi task. Khoảng thời gian này gọi là lát cắt thời gian 💩 - time slice. Hệ điều hành cố gắng đảm bảo mỗi task được thực thi (được chiếm CPU) trong 1 time slice. Khi time slice hết, trình lập lịch (scheduler) sẽ ngắt (interrupt) task đó để cho phép task khác chiếm CPU (để chạy).<br>
+Interrupt là một signal gửi tới CPU để tạm dừng task đang chạy (để dành thời gian cho task khác).<br>
+Có 3 loại interrupt:</p>
+<ul>
+<li>hardware interrupt: ngắt phần cứng do trình điều khiển interrupt</li>
+<li>software interrupt: do phần mềm</li>
+<li>error and timer interrupt</li>
+</ul>
+<p>Mỗi task được phép thực thi một thời gian ngắn rồi CPU sẽ nhanh chóng chuyển sang (switch) thực thi task khác nên dù chỉ có một core CPU và chỉ có một task được thực thi tại một thời diểm nhưng tạo cho ta &lsquo;cảm giác&rsquo; (illusion) đang có nhiều task được thực thi tại một thời điểm. Đây chỉ là &lsquo;ảo giác&rsquo; của multiprocessing chứ không thực sự là multiprocessing.
+<img src="/images/concurrency-preemptive-multi.png" alt=""></p>
+<h4 id="linh-tinh"><strong>linh tinh</strong></h4>
+<p>cách dễ nhất để tăng tốc độ của một chương trình tuần tự là tăng xung nhịp CPU (CPU clock speed)</p>
+</div>
+    </article>
+  </main>
+
+      </div>
+
+      
+        <footer>
+  <hr />
+
+  <style>
+    .small-block {
+      font-size: 12px;  
+    }
+  </style>
+  <div class="small-block">
+    <p class="copyright">
+      Copyright © 2024
+      <a href="http://localhost:1313/"><strong>codedua</strong></a>.
+      This work is licensed under the
+      <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> license.
+    </p>
+    <p class="builtWith">
+      Built with
+      <a href="http://www.gohugo.io/">Hugo</a>,
+      using the theme
+      <a href="https://gitlab.com/ian-s-mcb/smigle-hugo-theme">smigle</a>,
+      which was influenced by the theme
+      <a href="https://github.com/sumnerevans/smol">smol</a>.
+    </p>
+  </div>
+</footer>
+
+      
+    </div>
+  </body>
+</html>

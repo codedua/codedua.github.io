@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content=""
+  />
+  
+    
+      <title>WebGL Fundamental | codedua</title>
+    
+  
+  <link rel="stylesheet" href="/css/reset.css"/>
+  <link rel="stylesheet" href="/css/font.css"/>
+  <link rel="stylesheet" href="/css/smigle.css"/>
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/icon_coconut_32px.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/icon_coconut_16px.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+</head>
+
+  <body>
+    <div id="root">
+
+      
+        <header>
+  <div id="brand">
+    <a class="icon-link" href="http://localhost:1313/">
+      <img
+        class="icon"
+        src="/images/icon_coconut_512px.png"
+      />
+    </a>
+    <div class="text">
+      <a href="http://localhost:1313/"><h1>codedua</h1></a>
+      <h3>my technote</h3>
+    </div>
+  </div>
+  <nav>
+    
+  </nav>
+  <hr />
+</header>
+
+      
+
+      <div id="content">
+        
+  <main>
+    <article>
+      <h1 class="title">WebGL Fundamental</h1>
+      
+      <div class="post-meta">
+  <strong>
+    <span>Posted on</span>
+    <time>2024-09-17</time>
+    
+    
+  </strong>
+  <span> • 324 words</span>
+  <span> • 2 minute read</span>
+  
+  
+</div>
+
+      <div class="content"><hr>
+<p>refer webglfundamental.com and <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial">https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial</a></p>
+<h3 id="fundamental">Fundamental</h3>
+<ul>
+<li>
+<p>WebGL (Web Graphics Library) is often thought of as a 3D javascript API. (An author argues that in reality WebGL is just a rasterization engine and it has features that help to implement 3D: <a href="https://webglfundamentals.org/webgl/lessons/webgl-2d-vs-3d-library.html">https://webglfundamentals.org/webgl/lessons/webgl-2d-vs-3d-library.html</a>. Theo quan điểm của anh ta, một thư viện 3D cần phải handle 3D cho mình, mình chỉ cần pass vào dữ liệu như tọa độ đỉnh là nó sẽ tự tính những tính toán còn lại như clip space&hellip; ví dụ như thư viện Three.js là một thư viện 3D. ta có thể define camera view và truyền các dữ liệu 3D vào là được. OpenGL cũng tương tự. Tuy nhiên, OpenGL ES và webGL thì không, ta phải sử dụng các kiến thức toán học như ma trận&hellip; để xử lý, xoay đối tượng 3D&hellip; nên OpenGL ES và webGL không nên được coi là một thư viện 3D mà chỉ coi là một engine để rasterize )</p>
+</li>
+<li>
+<p>WebGL programs consist of control code written in JavaScript and shader code (GLSL) that is executed on a computer&rsquo;s Graphics Processing Unit (GPU).</p>
+</li>
+<li>
+<p>When we use the term “real-time graphics” we mean that rendering can be done in less than 1/30 of a second and the user can view smooth graphical animations. Ý tưởng là các operation tốn kém thì chỉ thực hiện 1 lần. vì vậy trong đồ họa máy tính sẽ có bước preprocessing được thực hiện 1 lần, sau đó là bước rendering. Vì vậy, code chương trình javascript sẽ được chia làm 2 phần, một là preprocessing hay setup, một phần là rendering. phần rendering sẽ được thực hiện nhiều lần, mỗi lần vẽ đối tượng là một lần thực hiện phần rendering. code js chạy trên CPU, nó ra lệnh có GPU render những gì và khi nào.
+<img src="/images/webgl-bigpicture.png" alt=""></p>
+</li>
+<li>
+<p>The context is a JavaScript object that stores all of the state and behavior of the graphics displayed in a canvas.</p>
+</li>
+</ul>
+</div>
+    </article>
+  </main>
+
+      </div>
+
+      
+        <footer>
+  <hr />
+
+  <style>
+    .small-block {
+      font-size: 12px;  
+    }
+  </style>
+  <div class="small-block">
+    <p class="copyright">
+      Copyright © 2024
+      <a href="http://localhost:1313/"><strong>codedua</strong></a>.
+      This work is licensed under the
+      <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> license.
+    </p>
+    <p class="builtWith">
+      Built with
+      <a href="http://www.gohugo.io/">Hugo</a>,
+      using the theme
+      <a href="https://gitlab.com/ian-s-mcb/smigle-hugo-theme">smigle</a>,
+      which was influenced by the theme
+      <a href="https://github.com/sumnerevans/smol">smol</a>.
+    </p>
+  </div>
+</footer>
+
+      
+    </div>
+  </body>
+</html>

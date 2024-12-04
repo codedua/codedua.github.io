@@ -3,15 +3,24 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://codedua.github.io/</loc>
-    <lastmod>2024-08-29T00:00:00+00:00</lastmod>
+    <lastmod>2024-12-02T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://codedua.github.io/posts/</loc>
-    <lastmod>2024-08-29T00:00:00+00:00</lastmod>
+    <lastmod>2024-12-02T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://codedua.github.io/posts/commonapi-cpp-someip/</loc>
     <lastmod>2023-07-26T00:00:00+00:00</lastmod>
   </url><url>
+    <loc>https://codedua.github.io/tags/ipc/</loc>
+    <lastmod>2023-07-26T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://codedua.github.io/tags/some/ip/</loc>
+    <lastmod>2023-07-26T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://codedua.github.io/posts/someip-packet-dissection/</loc>
+    <lastmod>2023-07-26T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://codedua.github.io/tags/</loc>
     <lastmod>2023-07-26T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://codedua.github.io/posts/someip-introduction/</loc>
@@ -20,13 +29,17 @@
     <loc>https://codedua.github.io/posts/vsomeip-configuration-file/</loc>
     <lastmod>2023-05-01T00:00:00+00:00</lastmod>
   </url><url>
+    <loc>https://codedua.github.io/categories/</loc>
+    <lastmod>2023-03-28T14:34:34+07:00</lastmod>
+  </url><url>
+    <loc>https://codedua.github.io/categories/os/</loc>
+    <lastmod>2023-03-28T14:34:34+07:00</lastmod>
+  </url><url>
     <loc>https://codedua.github.io/posts/static-library-shared-library/</loc>
     <lastmod>2023-03-28T14:34:34+07:00</lastmod>
   </url><url>
-    <loc>https://codedua.github.io/categories/</loc>
+    <loc>https://codedua.github.io/posts/opengles/</loc>
   </url><url>
     <loc>https://codedua.github.io/about/</loc>
-  </url><url>
-    <loc>https://codedua.github.io/tags/</loc>
   </url>
 </urlset>

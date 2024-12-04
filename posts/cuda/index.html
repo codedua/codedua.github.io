@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content=""
+  />
+  
+    
+      <title>Lập trình chương trình chạy trên GPU bằng CUDA | codedua</title>
+    
+  
+  <link rel="stylesheet" href="/css/reset.css"/>
+  <link rel="stylesheet" href="/css/font.css"/>
+  <link rel="stylesheet" href="/css/smigle.css"/>
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/icon_coconut_32px.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/icon_coconut_16px.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+</head>
+
+  <body>
+    <div id="root">
+
+      
+        <header>
+  <div id="brand">
+    <a class="icon-link" href="http://localhost:1313/">
+      <img
+        class="icon"
+        src="/images/icon_coconut_512px.png"
+      />
+    </a>
+    <div class="text">
+      <a href="http://localhost:1313/"><h1>codedua</h1></a>
+      <h3>my technote</h3>
+    </div>
+  </div>
+  <nav>
+    
+  </nav>
+  <hr />
+</header>
+
+      
+
+      <div id="content">
+        
+  <main>
+    <article>
+      <h1 class="title">Lập trình chương trình chạy trên GPU bằng CUDA</h1>
+      
+      <div class="post-meta">
+  <strong>
+    <span>Posted on</span>
+    <time>2024-09-19</time>
+    
+    
+  </strong>
+  <span> • 307 words</span>
+  <span> • 2 minute read</span>
+  
+  
+</div>
+
+      <div class="content"><hr>
+<p>Thông thường ta lập trình các chương trình bình thường sẽ chạy trên CPU. GPU chỉ giúp xử lý các phép tính của các chương trình cần xử lý đồ họa. Tuy nhiên, những mẫu GPU mới ngày nay cho phép ta chạy các chương trình &ldquo;bình thường&rdquo; trên nó. GPU của NVIDIA cung cấp một platform và mô hình lập trình tên là CUDA để giúp người dùng có thể tận dụng năng suất tính toán song song của lượng core lớn trên GPU để xử lý các instruction &ldquo;bình thường&rdquo; bên cạnh việc xử lý tính toán đồ họa. (Tóm váy lại, khi xưa GPU để xử lý đồ họa và lập trình viên có thể lập trình các chương trình đồ họa bằng openGL, vulkan và lập trình các phần xử lý trên GPU bằng GLSL. Ngày nay, GPU có thể làm nhiều hơn ngoài việc chỉ xử lý đồ họa, và CUDA là một platform giúp lập trình &ldquo;nhiều hơn&rdquo; trên GPU của NVIDIA).<br>
+CUDA đi kèm với môi trường cho phép lập trình viên sử dụng C++  as a high-level programming language. Ngoài ra, nó cũng support các ngôn ngữ và API khác như C, Fortran,
+Java Python Wrappers, bộ API DirectCompute của DirectX, Directives (không biết nó là cái gì 💩)<br>
+<img src="/images/cuda-gpu-computing-applications.png" alt=""></p>
+<p>Thách thức cho lập trình viên là phát triển phần mềm có khả năng được xử lý song song (parallelism) để tận dụng triệt để khả năng song song của GPU và CPU đa nhân. (Mà theo tài liệu của CUDA bảo thì mô hình lập trình CUDA chỉ có low learning curve (độ dốc kiến thức thấp) - ý là không khác biệt nhiều so với lập trình CPU truyền thống - thật ư 💩).<br>
+3 chìa khóa chính của CUDA: hehierarchy of thread groups, shared memoires, barrier synchronization.</p>
+</div>
+    </article>
+  </main>
+
+      </div>
+
+      
+        <footer>
+  <hr />
+
+  <style>
+    .small-block {
+      font-size: 12px;  
+    }
+  </style>
+  <div class="small-block">
+    <p class="copyright">
+      Copyright © 2024
+      <a href="http://localhost:1313/"><strong>codedua</strong></a>.
+      This work is licensed under the
+      <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> license.
+    </p>
+    <p class="builtWith">
+      Built with
+      <a href="http://www.gohugo.io/">Hugo</a>,
+      using the theme
+      <a href="https://gitlab.com/ian-s-mcb/smigle-hugo-theme">smigle</a>,
+      which was influenced by the theme
+      <a href="https://github.com/sumnerevans/smol">smol</a>.
+    </p>
+  </div>
+</footer>
+
+      
+    </div>
+  </body>
+</html>

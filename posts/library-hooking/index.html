@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta
@@ -9,7 +9,7 @@
   />
   
     
-      <title>404 Page not found | codedua</title>
+      <title>Library Hooking: LD_PRELOAD | codedua</title>
     
   
   <link rel="stylesheet" href="/css/reset.css"/>
@@ -31,14 +31,14 @@
       
         <header>
   <div id="brand">
-    <a class="icon-link" href="https://codedua.github.io/">
+    <a class="icon-link" href="http://localhost:1313/">
       <img
         class="icon"
         src="/images/icon_coconut_512px.png"
       />
     </a>
     <div class="text">
-      <a href="https://codedua.github.io/"><h1>codedua</h1></a>
+      <a href="http://localhost:1313/"><h1>codedua</h1></a>
       <h3>my technote</h3>
     </div>
   </div>
@@ -52,14 +52,30 @@
 
       <div id="content">
         
-	<main>
-    <h1>404 Not Found</h1>
-    <p>Whatever you're looking for, it isn't here.</p>
-	</main>
+  <main>
+    <article>
+      <h1 class="title">Library Hooking: LD_PRELOAD</h1>
+      
+      <div class="post-meta">
+  <strong>
+    <span>Posted on</span>
+    <time>2024-08-20</time>
+    
+    
+  </strong>
+  <span> • 79 words</span>
+  <span> • 1 minute read</span>
+  
+  
+</div>
+
+      <div class="content"><p>LD_PRELOAD is an environment variable that influences the behavior of the dynamic linker. It allows to specify one or more shared libraries loaded before other library. these first loaded libraries called preloaded libraries, obviously.<br>
+If a preloaded library contains a function with the same name as a function in a library loaded later, the first function is the one that will be used at runtime. then we can trickly use LD_PRELOAD to override funtions in an existing shared library.</p>
+</div>
+    </article>
+  </main>
 
       </div>
-
-      
 
       
         <footer>
@@ -73,7 +89,7 @@
   <div class="small-block">
     <p class="copyright">
       Copyright © 2024
-      <a href="https://codedua.github.io/"><strong>codedua</strong></a>.
+      <a href="http://localhost:1313/"><strong>codedua</strong></a>.
       This work is licensed under the
       <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> license.
     </p>
